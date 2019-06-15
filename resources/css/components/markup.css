@@ -1,12 +1,12 @@
 .markup {
-    @apply font-serif
+    @apply font-serif;
 }
 
-.markup>*:not(pre) {
+.markup > *:not(pre) {
     @apply break-words;
 }
 
-.markup>*:not(:last-child) {
+.markup > *:not(:last-child) {
     @apply mb-6;
 }
 
@@ -82,7 +82,7 @@
     @apply font-mono whitespace-pre-wrap;
 }
 
-.markup :not(pre)>code {
+.markup :not(pre) > code {
     @apply bg-gray-200 p-1 rounded;
     font-size: 0.8em;
 }
@@ -93,7 +93,7 @@
     line-height: 2.25;
 }
 
-.markup pre>code[data-lang]::before {
+.markup pre > code[data-lang]::before {
     @apply absolute right-0 top-0 bg-gray-200 text-gray-700 p-1 rounded text-xs leading-none mr-1 mt-1;
     content: attr(data-lang);
 }
@@ -103,7 +103,7 @@
 }
 
 .markup figure {
-    @apply text-center
+    @apply text-center;
 }
 
 @screen sm {

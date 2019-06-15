@@ -1,7 +1,7 @@
-const mix = require('laravel-mix')
+const mix = require('laravel-mix');
 
-require('laravel-mix-tailwind')
-require('laravel-mix-purgecss')
+require('laravel-mix-tailwind');
+require('laravel-mix-purgecss');
 
 mix.js('resources/js/app.js', 'public/js')
 
@@ -23,9 +23,17 @@ mix.js('resources/js/app.js', 'public/js')
         },
     })
 
-    .sourceMaps()
+    .sourceMaps();
 
 if (mix.inProduction()) {
-    mix.purgeCss()
-        .version()
+    mix.purgeCss({
+            globs: [
+                path.join(__dirname, 'node_modules/simplemde/**/*.js'),
+                path.join(__dirname, 'node_modules/turbolinks/**/*.js'),
+                path.join(__dirname, 'vendor/spatie/menu/**/*.php'),
+                path.join(__dirname, 'vendor/scrivo/highlight.php/**/*.php'),
+            ],
+            whitelistPatterns: [/carbon/, /language/, /hljs/, /cm-/, /alert-/, /page/, /iframe/],
+        })
+        .version();
 }
