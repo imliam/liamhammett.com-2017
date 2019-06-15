@@ -3,9 +3,12 @@
 namespace App\Nova;
 
 use App\Models\Post as PostModel;
+use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Inspheric\NovaDefaultable\HasDefaultableFields;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Text;
@@ -15,6 +18,8 @@ use Spatie\TagsField\Tags;
 
 class Post extends Resource
 {
+    use HasDefaultableFields;
+
     public static $model = PostModel::class;
 
     public static $title = 'title';
@@ -40,17 +45,35 @@ class Post extends Resource
                         return '';
                     }
 
-                    return '<a target="murze_preview" href="' . url($this->url) . '">Show</a>';
+                    return '<a href="' . url($this->url) . '">Show</a>';
                 })->asHtml(),
 
                 Markdown::make('Text')
                     ->rules('required'),
 
+                Code::make('Styles')
+                    ->language('sass'),
+
+                Code::make('Scripts')
+                    ->language('javascript'),
+
+                Images::make('Images', 'post_images')
+                    ->conversionOnDetailView('thumb')
+                    ->conversionOnIndexView('thumb')
+                    ->conversionOnForm('thumb')
+                    ->fullSize()
+                    ->withResponsiveImages(),
+
                 Tags::make('Tags'),
 
                 DateTime::make('Publish date')
                     ->hideFromIndex()
-                    ->sortable()
+                    ->sortable(),
+
+                Text::make('Author')
+                    ->withMeta([
+                        'value' => auth()->user()->name ?? '',
+                    ]),
             ]),
 
             new Panel('Meta', [
@@ -59,7 +82,7 @@ class Post extends Resource
 
                 Boolean::make('Published'),
 
-                Boolean::make('Original content'),
+                Boolean::make('Blog content'),
             ]),
         ];
     }

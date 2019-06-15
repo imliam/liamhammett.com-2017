@@ -11,6 +11,6 @@ $factory->define(Post::class, function (Faker $faker) {
         'text' => $faker->paragraph,
         'publish_date' => $faker->boolean(50) ? $faker->dateTimeBetween('-5 years') : null,
         'published' => true,
-        'original_content' => $faker->boolean(10),
+        'blog_content' => $faker->boolean(10),
     ];
 });

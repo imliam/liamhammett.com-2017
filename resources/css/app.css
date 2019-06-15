@@ -2,10 +2,10 @@
 
 @import './bootstrap.css';
 
-@import './components/carbon.css';
 @import './components/markup.css';
 @import './components/mobile-menu.css';
 @import './components/pagination.css';
+@import './components/lightbox.css';
 
 @import './vendor/hljs.css';
 

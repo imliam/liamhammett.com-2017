@@ -6,26 +6,27 @@ use App\Actions\PublishPostAction;
 use App\Http\Controllers\PostController;
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\Sluggable;
-use App\Models\Presenters\PostPresenter;
 use App\Services\CommonMark\CommonMark;
+use App\Services\OEmbed;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
+use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\Tags\HasTags;
-use Spatie\Tags\Tag;
 
-class Post extends Model implements Feedable, Sluggable
+class Post extends Model implements Feedable, Sluggable, HasMedia
 {
     public const TYPE_LINK = 'link';
     public const TYPE_TWEET = 'tweet';
-    public const TYPE_ORIGINAL = 'originalPost';
+    public const TYPE_BLOG = 'blogPost';
 
     use HasSlug,
         HasTags,
-        PostPresenter,
-        Searchable;
+        HasMediaTrait;
 
     public $with = ['tags'];
 
@@ -33,7 +34,7 @@ class Post extends Model implements Feedable, Sluggable
 
     public $casts = [
         'published' => 'boolean',
-        'original_content' => 'boolean'
+        'blog_content' => 'boolean'
     ];
 
     public static function boot()
@@ -57,9 +58,9 @@ class Post extends Model implements Feedable, Sluggable
             ->orderBy('id', 'desc');
     }
 
-    public function scopeOriginalContent(Builder $query)
+    public function scopeBlogContent(Builder $query)
     {
-        $query->where('original_content', true);
+        $query->where('blog_content', true);
     }
 
     public function scopeScheduled(Builder $query)
@@ -71,7 +72,9 @@ class Post extends Model implements Feedable, Sluggable
 
     public function getFormattedTextAttribute()
     {
-        return CommonMark::convertToHtml($this->text);
+        $html = CommonMark::convertToHtml($this->text);
+
+        return OEmbed::parse($html);
     }
 
     public function updateAttributes(array $attributes)
@@ -80,7 +83,7 @@ class Post extends Model implements Feedable, Sluggable
         $this->text = $attributes['text'];
         $this->publish_date = $attributes['publish_date'];
         $this->published = $attributes['published'] ?? false;
-        $this->original_content = $attributes['original_content'] ?? false;
+        $this->blog_content = $attributes['blog_content'] ?? false;
         $this->external_url = $attributes['external_url'];
 
         $this->save();
@@ -94,29 +97,6 @@ class Post extends Model implements Feedable, Sluggable
         return $this;
     }
 
-    public function searchableAs(): string
-    {
-        return config('scout.algolia.index');
-    }
-
-    public function toSearchableArray(): array
-    {
-        if (! $this->published) {
-            return [];
-        }
-
-        return [
-            'title' => $this->title,
-            'url' => $this->url,
-            'publish_date' => optional($this->publish_date)->timestamp,
-            'formatted_publish_date' => optional($this->publish_date)->format('M jS Y'),
-            'type' => $this->getType(),
-            'formatted_type' => $this->formatted_type,
-            'text' => substr(strip_tags($this->text), 0, 5000),
-            'tags' => $this->tags->implode(',')
-        ];
-    }
-
     public static function getFeedItems()
     {
         return static::published()
@@ -125,19 +105,10 @@ class Post extends Model implements Feedable, Sluggable
             ->get();
     }
 
-    public static function getPhpFeedItems()
-    {
-        return static::withAnyTags(['php'])
-            ->published()
-            ->orderBy('publish_date', 'desc')
-            ->limit(100)
-            ->get();
-    }
-
-    public static function getOriginalContentFeedItems()
+    public static function getBlogContentFeedItems()
     {
         return static::published()
-            ->where('original_content', true)
+            ->where('blog_content', true)
             ->orderBy('publish_date', 'desc')
             ->limit(100)
             ->get();
@@ -147,11 +118,11 @@ class Post extends Model implements Feedable, Sluggable
     {
         return FeedItem::create()
             ->id($this->id)
-            ->title($this->formatted_title)
+            ->title($this->title)
             ->summary($this->formatted_text)
             ->updated($this->publish_date)
             ->link($this->url)
-            ->author('Freek Van der Herten');
+            ->author('Liam Hammett');
     }
 
     public function getUrlAttribute(): string
@@ -182,12 +153,12 @@ class Post extends Model implements Feedable, Sluggable
 
     public function isTweet(): bool
     {
-        return $this->getType() === static::TYPE_TWEET;
+        return $this->hasTag(static::TYPE_TWEET);
     }
 
-    public function isOriginal(): bool
+    public function isBlog(): bool
     {
-        return $this->getType() === static::TYPE_ORIGINAL;
+        return $this->getType() === static::TYPE_BLOG;
     }
 
     public function getType(): string
@@ -196,8 +167,8 @@ class Post extends Model implements Feedable, Sluggable
             return static::TYPE_TWEET;
         }
 
-        if ($this->original_content) {
-            return static::TYPE_ORIGINAL;
+        if ($this->blog_content) {
+            return static::TYPE_BLOG;
         }
 
         return static::TYPE_LINK;
@@ -206,5 +177,150 @@ class Post extends Model implements Feedable, Sluggable
     public function getSluggableValue(): string
     {
         return $this->title;
+    }
+
+    public static function getTagClassName(): string
+    {
+        return Tag::class;
+    }
+
+    public function registerMediaCollections()
+    {
+        $this->addMediaCollection('post_images');
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->width(150)
+            ->height(150);
+    }
+
+
+    public function getExcerptAttribute(): string
+    {
+        $excerpt = $this->getManualExcerpt() ?? $this->getAutomaticExcerpt();
+
+        $excerpt = str_replace(
+            '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>',
+            '<div data-lazy="twitter"></div>',
+            $excerpt,
+        );
+
+        return trim($excerpt);
+    }
+
+    public function getFormattedExcerptAttribute(): string
+    {
+        return OEmbed::parse($this->excerpt);
+    }
+
+    protected function getManualExcerpt(): ?string
+    {
+        if ($this->isTweet()) {
+            return CommonMark::convertToHtml(trim($this->text), true);
+        }
+
+        if (!Str::contains($this->text, '<!--more-->')) {
+            return null;
+        }
+
+        return CommonMark::convertToHtml(trim(Str::before($this->text, '<!--more-->')), true);
+    }
+
+    protected function getAutomaticExcerpt(): string
+    {
+        $excerpt = $this->text;
+
+        if (mb_strlen($excerpt) == 0) {
+            return '';
+        }
+
+        $endOfThirdParagraph = $this->nthStrPos($excerpt, "\n\n", 3);
+
+        if ($endOfThirdParagraph === false) {
+            return CommonMark::convertToHtml($excerpt, true);
+        }
+
+        $excerpt = mb_substr($excerpt, 0, $endOfThirdParagraph);
+
+        return CommonMark::convertToHtml($excerpt, true);
+    }
+
+    protected function nthStrPos(string $haystack, string $needle, int $number)
+    {
+        if ($number <= 1) {
+            return mb_strpos($haystack, $needle);
+        }
+
+        return mb_strpos($haystack, $needle, $this->nthStrPos($haystack, $needle, $number - 1) + mb_strlen($needle));
+    }
+
+    public function getTagsTextAttribute(): string
+    {
+        return $this
+            ->tags
+            ->pluck('name')
+            ->implode(', ');
+    }
+
+    public function getEmojiAttribute(): string
+    {
+        if ($this->isLink()) {
+            return '🔗';
+        }
+
+        if ($this->isTweet()) {
+            return '🐦';
+        }
+
+        if ($this->isBlog()) {
+            return '🌟';
+        }
+
+        return '';
+    }
+
+    public function getFormattedTypeAttribute(): string
+    {
+        if ($this->isBlog()) {
+            return 'Blog';
+        }
+
+        return ucfirst($this->getType());
+    }
+
+    public function getThemeAttribute(): string
+    {
+        $tagNames = $this->tags->pluck('name');
+
+        if ($tagNames->contains('laravel')) {
+            return '#f16563';
+        }
+
+        if ($tagNames->contains('php')) {
+            return '#7578ab';
+        }
+
+        if ($tagNames->contains('javascript')) {
+            return '#f7df1e';
+        }
+
+        return '#cbd5e0';
+    }
+
+    public function getReadingTimeAttribute(): int
+    {
+        return (int)ceil(str_word_count(strip_tags($this->text)) / 200);
+    }
+
+    public function getIsBlogAttribute(): bool
+    {
+        return $this->type === Post::TYPE_BLOG;
+    }
+
+    public function getExternalUrlHostAttribute(): string
+    {
+        return parse_url($this->external_url)['host'] ?? '';
     }
 }

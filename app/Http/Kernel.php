@@ -13,7 +13,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-        \Spatie\MissingPageRedirector\RedirectsMissingPages::class,
 
     ];
 
@@ -33,7 +32,6 @@ class Kernel extends HttpKernel
             'bindings',
         ],
     ];
-
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,

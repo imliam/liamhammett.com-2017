@@ -1,34 +1,22 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\OriginalsController;
-use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\SpeakingController;
+use App\Http\Controllers\TagController;
 
 Route::redirect('nova', '/nova/login');
 
 Route::feeds();
 
-Route::get('/', HomeController::class);
-Route::get('originals', OriginalsController::class);
-Route::get('speaking', SpeakingController::class);
+Route::get('/', HomeController::class)->name('home');
+Route::get('blog', BlogController::class)->name('blog');
 
-Route::view('about', 'front.about.index');
-Route::view('advertising', 'front.advertising.index');
-Route::view('search', 'front.search.index');
-
-Route::get('newsletter', [NewsletterController::class, 'index']);
-Route::get('confirm-your-email', [NewsletterController::class, 'confirm']);
-Route::get('subscribed', [NewsletterController::class, 'subscribed']);
-
-Route::middleware('doNotCacheResponse')->group(function () {
-    Route::get('payments', [PaymentsController::class, 'index']);
-    Route::post('payments/set-amount', [PaymentsController::class, 'setAmount']);
-    Route::post('payments', [PaymentsController::class, 'handlePayment']);
-});
+Route::view('about', 'about.index')->name('about');
 
 Route::redirect('me', '/about');
 
-Route::get('{postSlug}', PostController::class);
+Route::get('tags', [TagController::class, 'index'])->name('tags');
+Route::get('tags/{tag}', [TagController::class, 'show'])->name('tag');
+
+Route::get('{postSlug}', PostController::class)->name('post');

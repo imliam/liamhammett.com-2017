@@ -1,63 +1,60 @@
-/**
- * GitHub Gist Theme
- * Author : Louis Barranqueiro - https://github.com/LouisBarranqueiro
- */
+/*
+  codepen.io Embed Theme
+  Author: Justin Perry <http://github.com/ourmaninamsterdam>
+  Original theme - https://github.com/chriskempson/tomorrow-theme
+*/
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #fff;
+    @apply bg-gray-900;
+}
 
 .hljs-comment,
-.hljs-meta {
-    color: #969896;
+.hljs-quote {
+    color: #777;
 }
 
-.hljs-string,
 .hljs-variable,
 .hljs-template-variable,
-.hljs-strong,
-.hljs-emphasis,
-.hljs-quote {
-    color: #df5000;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-type {
-    color: #a71d5d;
-}
-
+.hljs-tag,
+.hljs-regexp,
+.hljs-meta,
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
 .hljs-literal,
+.hljs-params,
 .hljs-symbol,
 .hljs-bullet,
-.hljs-attribute {
-    color: #0086b3;
+.hljs-link,
+.hljs-deletion {
+    color: #ab875d;
 }
 
 .hljs-section,
-.hljs-name {
-    color: #63a35c;
-}
-
-.hljs-tag {
-    color: #333333;
-}
-
 .hljs-title,
-.hljs-attr,
+.hljs-name,
 .hljs-selector-id,
 .hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-    color: #795da3;
+.hljs-type,
+.hljs-attribute {
+    color: #9b869b;
 }
 
+.hljs-string,
+.hljs-keyword,
+.hljs-selector-tag,
 .hljs-addition {
-    color: #55a532;
-    background-color: #eaffea;
+    color: #8f9c6c;
 }
 
-.hljs-deletion {
-    color: #bd2c00;
-    background-color: #ffecec;
+.hljs-emphasis {
+    font-style: italic;
 }
 
-.hljs-link {
-    text-decoration: underline;
+.hljs-strong {
+    font-weight: bold;
 }

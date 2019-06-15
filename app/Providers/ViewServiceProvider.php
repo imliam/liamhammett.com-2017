@@ -10,6 +10,6 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        View::composer('front.components.lazy', LazyViewComposer::class);
+        View::composer('components.lazy', LazyViewComposer::class);
     }
 }

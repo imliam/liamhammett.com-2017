@@ -18,7 +18,7 @@ class PostRequest extends FormRequest
             'text' => 'required',
             'publish_date' => 'date',
             'published' => 'boolean',
-            'original_content' => 'boolean',
+            'blog_content' => 'boolean',
             'tags_text' => 'present',
             'external_url' => '',
         ];

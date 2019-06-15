@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://freek.dev'),
+    'url' => env('APP_URL', 'https://liamhammett.com'),
 
     /*
     |--------------------------------------------------------------------------

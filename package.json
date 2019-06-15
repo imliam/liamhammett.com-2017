@@ -8,26 +8,22 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "format": "prettier 'resources/**/*.{css,js,json,css,ts,tsx}' '*.{js,css}' --write",
-    "build-generate-newsletter": "cd nova-components/GenerateNewsletter && yarn dev",
-    "build-generate-newsletter-prod": "cd nova-components/GenerateNewsletter && yarn && yarn prod"
+    "format": "prettier 'resources/**/*.{css,js,json,css,ts,tsx}' '*.{js,css}' --write"
   },
-  "dependencies": {
-    "algoliasearch": "^3.24.5",
-    "downshift": "^3.2.10",
-    "preact": "^8.4.2",
-    "preact-compat": "^3.18.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "cross-env": "^5.1.1",
-    "husky": "^2.3.0",
-    "laravel-mix": "^4.0",
-    "laravel-mix-purgecss": "^4.0",
-    "lint-staged": "^8.1.7",
-    "prettier": "^1.10.2",
-    "tailwindcss": "1.0.0-beta.4",
+    "cross-env": "^5.2.0",
+    "husky": "^2.4.1",
+    "laravel-mix": "^4.0.16",
+    "laravel-mix-purgecss": "^4.1.0",
+    "laravel-mix-tailwind": "^0.1.0",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
+    "sass": "^1.21.0",
+    "sass-loader": "^7.1.0",
+    "tailwindcss": "1.0.4",
     "vue-template-compiler": "^2.6.10"
   },
   "husky": {

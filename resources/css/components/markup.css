@@ -1,31 +1,39 @@
-.markup > *:not(pre) {
+.markup {
+    @apply font-serif
+}
+
+.markup>*:not(pre) {
     @apply break-words;
 }
 
-.markup > *:not(:last-child) {
+.markup>*:not(:last-child) {
     @apply mb-6;
 }
 
 .link,
-.markup :not(.no-markup) a:not(.permalink) {
+.markup :not(.no-markup) a:not(.permalink):not(.no-markup) {
     @apply text-blue-700 underline;
 }
 
 .markup .permalink {
-    @apply inline-block ml-1 text-gray-400;
+    @apply inline-block text-gray-300;
+}
+
+.markup .permalink:hover {
+    @apply text-gray-400;
 }
 
 .markup h1 {
-    @apply text-3xl font-extrabold leading-tight;
+    @apply font-slab text-3xl font-extrabold leading-tight;
 }
 
 .markup h2 {
-    @apply text-2xl font-bold leading-tight mt-12;
+    @apply font-slab text-2xl font-bold leading-tight mt-12;
 }
 
 .h3,
 .markup h3 {
-    @apply font-semibold leading-tight mt-12;
+    @apply font-slab text-xl font-semibold leading-tight mt-12;
 }
 
 .markup ul,
@@ -71,23 +79,41 @@
 }
 
 .markup code {
-    @apply font-mono;
+    @apply font-mono whitespace-pre-wrap;
 }
 
-.markup :not(pre) > code {
-    @apply p-1 bg-gray-100 border-b-2 border-gray-200;
+.markup :not(pre)>code {
+    @apply bg-gray-200 p-1 rounded;
     font-size: 0.8em;
 }
 
 .markup pre {
-    @apply -mx-4 p-4 bg-gray-100 overflow-x-auto;
+    @apply -mx-4 p-4 bg-gray-900 overflow-x-auto rounded-lg relative;
     font-size: 0.75em;
     line-height: 2.25;
 }
 
+.markup pre>code[data-lang]::before {
+    @apply absolute right-0 top-0 bg-gray-200 text-gray-700 p-1 rounded text-xs leading-none mr-1 mt-1;
+    content: attr(data-lang);
+}
+
+.markup iframe {
+    @apply w-full;
+}
+
+.markup figure {
+    @apply text-center
+}
+
 @screen sm {
     .markup pre {
-        @apply mx-0 p-6 border-b-5 border-gray-200;
+        @apply -mx-12 p-6 border-gray-900;
+    }
+
+    .markup iframe,
+    .markup figure {
+        @apply -mx-12;
     }
 }
 
@@ -95,8 +121,4 @@
     .markup pre {
         @apply p-8;
     }
-}
-
-.markup iframe {
-    @apply w-full;
 }

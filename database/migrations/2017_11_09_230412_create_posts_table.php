@@ -13,13 +13,14 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('text');
-            $table->string('wp_id')->nullable();
-            $table->string('wp_post_name')->nullable();
-            $table->datetime('publish_date');
+            $table->text('styles')->nullable();
+            $table->text('scripts')->nullable();
+            $table->datetime('publish_date')->nullable();
             $table->boolean('published')->default(false);
             $table->boolean('tweet_sent')->default(false);
-            $table->boolean('posted_on_medium')->default(false);
-            $table->string('author')->default('Freek Van der Herten');
+            $table->boolean('blog_content')->default(false);
+            $table->string('author')->default('Liam Hammett');
+            $table->string('external_url')->nullable();
             $table->timestamps();
         });
     }

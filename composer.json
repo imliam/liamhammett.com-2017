@@ -11,10 +11,6 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
-        },
-        {
-            "type": "path",
-            "url": "./nova-components/GenerateNewsletter"
         }
     ],
     "require": {
@@ -22,29 +18,35 @@
         "abraham/twitteroauth": "^0.7.4",
         "algolia/algoliasearch-client-php": "^1.23",
         "doctrine/dbal": "^2.8",
+        "ebess/advanced-nova-media-library": "^2.7",
+        "embed/embed": "^3.3",
+        "erusev/parsedown-extra": "^0.7.1",
         "fideloper/proxy": "^4.0",
-        "freekmurze/generate-newsletter": "*",
         "guzzlehttp/guzzle": "^6.3",
+        "inspheric/nova-defaultable": "^1.2",
         "laravel/framework": "5.8.*",
         "laravel/horizon": "^3.0",
         "laravel/nova": "^2.0",
-        "laravel/scout": "^3.0",
         "laravel/tinker": "^1.0",
+        "league/commonmark": "^0.19.2",
+        "league/commonmark-ext-autolink": "^0.3.0",
+        "league/commonmark-ext-smartpunct": "^0.2.0",
+        "league/commonmark-ext-strikethrough": "^0.4.0",
         "ohdearapp/nova-ohdear-tool": "^1.0",
         "spatie/commonmark-highlighter": "^1.0",
         "spatie/laravel-backup": "^6.0",
         "spatie/laravel-feed": "^2.0",
         "spatie/laravel-flash": "^1.2",
+        "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-menu": "^3.0",
-        "spatie/laravel-missing-page-redirector": "^2.1",
         "spatie/laravel-responsecache": "^6.0",
         "spatie/laravel-tags": "^2.0",
         "spatie/laravel-tail": "^3.0",
         "spatie/nova-backup-tool": "^2.0",
         "spatie/nova-tags-field": "^2.0",
         "spatie/nova-tail-tool": "^2.0",
-        "stripe/stripe-php": "^6.8",
-        "themsaid/laravel-mail-preview": "^2.0"
+        "themsaid/laravel-mail-preview": "^2.0",
+        "vinkla/hashids": "^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",

@@ -20,7 +20,7 @@ return [
      *
      * You can override this setting by calling `reportTo` on your policy.
      */
-    'report_uri' => 'https://murze.report-uri.com/r/d/csp/enforce',
+    'report_uri' => 'https://liamhammett.report-uri.com/r/d/csp/enforce',
 
     /*
      * Headers will only be added if this setting is set to true.

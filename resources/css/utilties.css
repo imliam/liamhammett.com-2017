@@ -16,3 +16,12 @@
 .border-t-transparent {
     border-top: transparent;
 }
+
+.bg-hero {
+    background-color: #23292f;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='32' height='26' viewBox='0 0 32 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 0v3.994C14 7.864 10.858 11 7 11c-3.866 0-7-3.138-7-7.006V0h2v4.005a5 5 0 0 0 10 0V0h2zm0 26v-5.994A7.004 7.004 0 0 0 7 13c-3.858 0-7 3.137-7 7.006V26h2v-6.005a5 5 0 0 1 10 0V26h2zm2-18.994C16 3.136 19.142 0 23 0c3.866 0 7 3.138 7 7.006v9.988C30 20.864 26.858 24 23 24c-3.866 0-7-3.138-7-7.006V7.006zm2-.01a5 5 0 0 1 10-.001v10.01a5 5 0 0 1-10 0V6.995z' fill='%23343436' fill-opacity='.25' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.target\:visible:target {
+    visibility: visible;
+}

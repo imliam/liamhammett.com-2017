@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,16 @@ class RouteServiceProvider extends ServiceProvider
             }
 
             return $post;
+        });
+
+        Route::bind('tag', function ($slug) {
+            $tag = Tag::findFromString($slug);
+
+            if (! $tag) {
+                abort(404);
+            }
+
+            return $tag;
         });
     }
 }
