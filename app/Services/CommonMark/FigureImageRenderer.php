@@ -17,7 +17,7 @@ class FigureImageRenderer extends BaseImageRenderer
         $element = parent::render($block, $htmlRenderer);
         $uniqueId = $this->getUniqueId($element->getAttribute('src'));
 
-        $element->setAttribute('class', 'rounded-lg');
+        $element->setAttribute('class', 'rounded-lg max-w-full');
         $element->setAttribute('id', $this->uniqueId);
         $altText = $element->getAttribute('alt');
         $element = $this->makeLightboxElement($element, $uniqueId);

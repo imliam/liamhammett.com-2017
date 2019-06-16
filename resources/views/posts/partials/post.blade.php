@@ -1,6 +1,6 @@
 <article class="{{ $class ?? '' }}">
     <header class="mb-6">
-        <{{ $heading ?? 'h1' }} class="max-w-xl leading-tight mb-1 font-slab {{ $heading ?? 'h1' === 'h2' ? 'font-extrabold text-2xl md:text-3xl' : 'text-3xl md:text-4xl' }}">
+        <{{ $heading ?? 'h1' }} class="max-w-xl leading-tight mb-2 font-slab {{ $heading ?? 'h1' === 'h2' ? 'font-extrabold text-2xl md:text-3xl' : 'text-3xl md:text-4xl' }}">
             @isset($url)
                 <a href="{{ $url }}">{{ $post->title }}</a>
             @else

@@ -30,13 +30,13 @@ class HeadingRenderer extends BaseHeadingRenderer
         $headingLevel = max(1, (int) substr($element->getTagName(), 1));
 
         $element->setAttribute('id', $id);
-        $element->setAttribute('class', 'relative');
+        $element->setAttribute('class', 'sm:relative');
         $element->setContents(
             new HtmlElement(
                 'a',
                 [
                     'href' => "#{$id}",
-                    'class' => 'permalink absolute ' . $this->getHashMarginClass($headingLevel)
+                    'class' => 'permalink sm:absolute ' . $this->getHashMarginClass($headingLevel)
                 ],
                 str_repeat('#', $headingLevel)
             )
@@ -56,9 +56,9 @@ class HeadingRenderer extends BaseHeadingRenderer
     private function getHashMarginClass($hashCount)
     {
         return [
-            1 => '-ml-6',
-            2 => '-ml-8',
-            3 => '-ml-10',
-        ][$hashCount] ?? '-ml-16';
+            1 => 'sm:-ml-6',
+            2 => 'sm:-ml-8',
+            3 => 'sm:-ml-10',
+        ][$hashCount] ?? 'sm:-ml-16';
     }
 }

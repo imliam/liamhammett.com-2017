@@ -88,7 +88,7 @@
 }
 
 .markup pre {
-    @apply -mx-4 p-4 bg-gray-900 overflow-x-auto rounded-lg relative;
+    @apply -mx-6 p-4 bg-gray-900 overflow-x-auto relative;
     font-size: 0.75em;
     line-height: 2.25;
 }
@@ -108,7 +108,7 @@
 
 @screen sm {
     .markup pre {
-        @apply -mx-12 p-6 border-gray-900;
+        @apply p-6 border-gray-900 rounded-lg;
     }
 
     .markup iframe,

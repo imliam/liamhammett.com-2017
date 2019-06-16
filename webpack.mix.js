@@ -33,6 +33,8 @@ if (mix.inProduction()) {
                 path.join(__dirname, 'vendor/spatie/menu/**/*.php'),
                 path.join(__dirname, 'vendor/scrivo/highlight.php/**/*.php'),
                 path.join(__dirname, 'resources/css/components/*.css'),
+                path.join(__dirname, 'resources/views/**/*.blade.php'),
+                path.join(__dirname, 'app/**/*.php'),
             ],
             whitelistPatterns: [/carbon/, /language/, /hljs/, /cm-/, /alert-/, /page/, /iframe/],
         })
