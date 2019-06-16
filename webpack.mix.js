@@ -32,6 +32,7 @@ if (mix.inProduction()) {
                 path.join(__dirname, 'node_modules/turbolinks/**/*.js'),
                 path.join(__dirname, 'vendor/spatie/menu/**/*.php'),
                 path.join(__dirname, 'vendor/scrivo/highlight.php/**/*.php'),
+                path.join(__dirname, 'resources/css/components/*.css'),
             ],
             whitelistPatterns: [/carbon/, /language/, /hljs/, /cm-/, /alert-/, /page/, /iframe/],
         })
