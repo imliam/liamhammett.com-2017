@@ -58,8 +58,8 @@
     @apply mb-4;
 }
 
-.markup li > ul > li:first,
-.markup li > ol > li:first {
+.markup li > ul > li:first-child,
+.markup li > ol > li:first-child {
     @apply mt-4;
 }
 
