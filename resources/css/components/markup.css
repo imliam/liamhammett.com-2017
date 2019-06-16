@@ -49,6 +49,15 @@
     list-style-type: decimal;
 }
 
+.markup li ul,
+.markup li ol {
+    @apply ml-8;
+}
+
+.markup li {
+    @apply mb-4;
+}
+
 .markup img {
     @apply block;
 }
