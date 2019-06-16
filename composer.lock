@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "397faae1c8638e848e95761d12d6f09e",
+    "content-hash": "6cc412d9d696fce16ab098d9e4d480fe",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3279,16 +3279,16 @@
         },
         {
             "name": "spatie/commonmark-highlighter",
-            "version": "1.0.4",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/commonmark-highlighter.git",
-                "reference": "78be926433271435ee90b37dd1ff23bb6861d19f"
+                "reference": "e398103a8b27c7d3a033a795e7f6df3db83471d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/commonmark-highlighter/zipball/78be926433271435ee90b37dd1ff23bb6861d19f",
-                "reference": "78be926433271435ee90b37dd1ff23bb6861d19f",
+                "url": "https://api.github.com/repos/spatie/commonmark-highlighter/zipball/e398103a8b27c7d3a033a795e7f6df3db83471d0",
+                "reference": "e398103a8b27c7d3a033a795e7f6df3db83471d0",
                 "shasum": ""
             },
             "require": {
@@ -3325,7 +3325,7 @@
                 "commonmark-highlighter",
                 "spatie"
             ],
-            "time": "2019-05-06T06:44:03+00:00"
+            "time": "2019-06-16T17:37:37+00:00"
         },
         {
             "name": "spatie/db-dumper",
@@ -6130,16 +6130,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v3.3.3",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde"
+                "reference": "5084b23845c24dbff8ac6c204290c341e4776c92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/dbcc609971dd9b55f48b8008b553d79fd372ddde",
-                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/5084b23845c24dbff8ac6c204290c341e4776c92",
+                "reference": "5084b23845c24dbff8ac6c204290c341e4776c92",
                 "shasum": ""
             },
             "require": {
@@ -6153,7 +6153,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -6178,7 +6178,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2019-03-06T09:39:45+00:00"
+            "time": "2019-06-15T22:40:20+00:00"
         }
     ],
     "packages-dev": [
