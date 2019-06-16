@@ -58,6 +58,11 @@
     @apply mb-4;
 }
 
+.markup li > ul > li:first,
+.markup li > ol > li:first {
+    @apply mt-4;
+}
+
 .markup img {
     @apply block;
 }
