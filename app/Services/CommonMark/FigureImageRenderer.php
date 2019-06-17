@@ -2,7 +2,6 @@
 
 namespace App\Services\CommonMark;
 
-use Illuminate\Support\Str;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
@@ -17,7 +16,6 @@ class FigureImageRenderer extends BaseImageRenderer
         $uniqueId = $this->getUniqueId($imageElement->getAttribute('src'));
 
         $imageElement->setAttribute('class', 'rounded-lg max-w-full');
-        $imageElement->setAttribute('id', $uniqueId);
         $altText = $imageElement->getAttribute('alt');
         $imageElement = $this->makeCloudinaryElement($imageElement);
         $imageElement = $this->makeLightboxElement($imageElement, $uniqueId);
@@ -57,9 +55,9 @@ class FigureImageRenderer extends BaseImageRenderer
         return $lightbox;
     }
 
-    private function getUniqueId($string)
+    private function getUniqueId(string $string): string
     {
-        return 'image-' . substr(str_replace(['=', '/', '-'], '', base64_encode($string)), -10);
+        return 'lightbox-' . substr(str_replace(['=', '/', '-'], '', base64_encode($string)), -10);
     }
 
     private function makeCloudinaryElement(HtmlElement $imageElement): HtmlElement
