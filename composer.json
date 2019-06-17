@@ -17,6 +17,7 @@
         "php": "^7.3",
         "abraham/twitteroauth": "^0.7.4",
         "algolia/algoliasearch-client-php": "^1.23",
+        "cloudinary/cloudinary_php": "^1.14",
         "doctrine/dbal": "^2.8",
         "ebess/advanced-nova-media-library": "^2.7",
         "embed/embed": "^3.3",
