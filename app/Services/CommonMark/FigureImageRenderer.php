@@ -79,7 +79,6 @@ class FigureImageRenderer extends BaseImageRenderer
             'picture',
             [],
             join('', [
-                $originalImageElement->__toString(),
                 $this->generateSourceTag($cloudinaryImage, 'webp', 640),        // xs
                 $this->generateSourceTag($cloudinaryImage, 'webp', 768, 640),   // sm
                 $this->generateSourceTag($cloudinaryImage, 'webp', 1024, 768),  // md
@@ -91,6 +90,8 @@ class FigureImageRenderer extends BaseImageRenderer
                 $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1024, 768),  // md
                 $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1280, 1024), // lg
                 $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1600, 1280), // xl
+
+                $originalImageElement->__toString(),
             ])
         );
     }
