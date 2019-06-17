@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use DOMDocument;
 use DOMXPath;
-use Embed\Embed;
 use Exception;
+use DOMDocument;
+use Embed\Embed;
+use Illuminate\Support\Str;
 
 final class OEmbed
 {
@@ -14,7 +15,7 @@ final class OEmbed
         $dom = new DOMDocument();
 
         @$dom->loadHTML(
-            mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
+            '<!DOCTYPE html>' . mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
             LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
         );
 
@@ -66,7 +67,7 @@ final class OEmbed
             }
         }
 
-        return $dom->saveHTML();
+        return Str::after($dom->saveHTML(), '<!DOCTYPE html>');
     }
 
     protected static function getOpenGraphBlock(string $html): string
