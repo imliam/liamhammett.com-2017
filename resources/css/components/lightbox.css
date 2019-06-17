@@ -6,7 +6,7 @@
 .lightbox:target {
     position: fixed;
     display: flex;
-    z-index: 998;
+    z-index: 997;
     top: 0;
     left: 0;
     right: 0;
@@ -16,12 +16,21 @@
     align-items: center;
 }
 
-.lightbox:target img {
+.lightbox:target img, .lightbox:target picture {
     z-index: 999;
+}
+
+.lightbox:target img {
     max-width: 90%;
     max-height: 80%;
     width: auto;
     height: auto;
+}
+
+.lightbox:target picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-lightbox {
@@ -37,6 +46,7 @@
 
 .lightbox:target .close-lightbox {
     display: block;
+    z-index: 998;
 }
 
 .open-lightbox {
