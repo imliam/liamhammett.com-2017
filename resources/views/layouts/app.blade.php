@@ -19,7 +19,7 @@
         @endforeach
 
 
-        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700|Merriweather:300,300i,400,400i,700,700i|Zilla+Slab:300,300i,400,400i,700,700i&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400|Merriweather:400,400i,700,700i|Zilla+Slab:300,300i,400,400i&display=swap" rel="stylesheet">
 
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
