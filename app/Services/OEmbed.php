@@ -7,6 +7,7 @@ use Exception;
 use DOMDocument;
 use Embed\Embed;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 final class OEmbed
 {
@@ -27,7 +28,9 @@ final class OEmbed
                 continue;
             }
 
-            if (trim($node->textContent) !== trim($node->getAttribute('href'))) {
+            $href = trim($node->getAttribute('href'));
+
+            if (trim($node->textContent) !== $href) {
                 continue;
             }
 
@@ -36,19 +39,27 @@ final class OEmbed
             }
 
             try {
-                $oembed = Embed::create(
-                    trim($node->textContent),
-                    [
-                        'min_image_width' => 100,
-                        'min_image_height' => 100,
-                        'choose_bigger_image' => true,
-                        'images_blacklist' => 'example.com/*',
-                        'url_blacklist' => 'example.com/*',
-                        'follow_canonical' => true,
-                    ]
-                );
+                $oembed = Cache::remember('oembed_' . $href, now()->addDay(), function() use ($href) {
+                    return Embed::create(
+                        $href,
+                        [
+                            'min_image_width' => 100,
+                            'min_image_height' => 100,
+                            'choose_bigger_image' => true,
+                            'images_blacklist' => 'example.com/*',
+                            'url_blacklist' => 'example.com/*',
+                            'follow_canonical' => true,
+                        ]
+                    );
+                });
 
-                $embedCode = $oembed->code ?? static::getOpenGraphBlock($oembed->getResponse()->getContent());
+                $embedCode = $oembed->code;
+
+                if (! $embedCode) {
+                    $embedCode = Cache::remember('opengraph_' . $href, now()->addDay(), function() use ($oembed) {
+                        return static::getOpenGraphBlock($oembed->getResponse()->getContent());
+                    });
+                }
 
                 $embedDom = new DOMDocument();
                 @$embedDom->loadHTML(
