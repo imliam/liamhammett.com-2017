@@ -23,7 +23,7 @@ class CommonMark
             ->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer())
             ->addBlockRenderer(Heading::class, new HeadingRenderer($isRenderingExcerpt))
             ->addInlineRenderer(Image::class, new FigureImageRenderer())
-            // ->addExtension(new AutolinkExtension()) // github.com/thephpleague/commonmark-ext-autolink/issues/12
+            ->addExtension(new AutolinkExtension())
             ->addExtension(new SmartPunctExtension())
             ->addExtension(new StrikethroughExtension());
 
