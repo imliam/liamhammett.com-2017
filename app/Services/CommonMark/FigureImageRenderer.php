@@ -3,10 +3,11 @@
 namespace App\Services\CommonMark;
 
 use League\CommonMark\HtmlElement;
+use Illuminate\Support\Facades\Cache;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Renderer\ImageRenderer as BaseImageRenderer;
 use App\Services\CommonMark\Exceptions\NotCloudinaryImageException;
+use League\CommonMark\Inline\Renderer\ImageRenderer as BaseImageRenderer;
 
 class FigureImageRenderer extends BaseImageRenderer
 {
@@ -75,35 +76,55 @@ class FigureImageRenderer extends BaseImageRenderer
 
     private function makeResponsiveCloudinaryImages(CloudinaryImage $cloudinaryImage, HtmlElement $originalImageElement): HtmlElement
     {
-        return new HtmlElement(
-            'picture',
-            [],
-            join('', [
-                $this->generateSourceTag($cloudinaryImage, 'webp',                                   1600, 1280), // xl
-                $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1600, 1280), // xl
-                $this->generateSourceTag($cloudinaryImage, 'webp',                                   1280, 1024), // lg
-                $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1280, 1024), // lg
-                $this->generateSourceTag($cloudinaryImage, 'webp',                                   1024, 768),  // md
-                $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1024, 768),  // md
-                $this->generateSourceTag($cloudinaryImage, 'webp',                                   768, 640),   // sm
-                $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 768, 640),   // sm
-                $this->generateSourceTag($cloudinaryImage, 'webp',                                   640),        // xs
-                $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 640),        // xs
+        $imageUrl = $originalImageElement->getAttribute('src');
 
-                $originalImageElement->__toString(),
-            ])
-        );
+        [$originalWidth] = Cache::remember('imagesize_' . $imageUrl, now()->addWeek(), function() use ($imageUrl) {
+            return getimagesize($imageUrl);
+        });
+
+        $imageTags = [];
+
+        if ($originalWidth >= 1600) {
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, 'webp', 1600, 1280);
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1600, 1280);
+        }
+
+        if ($originalWidth >= 1280) {
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, 'webp', 1280, 1024);
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1280, 1024);
+        }
+
+        if ($originalWidth >= 1024) {
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, 'webp', 1024, 768);
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 1024, 768);
+        }
+
+        if ($originalWidth >= 768) {
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, 'webp', 768, 640);
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 768, 640);
+        }
+
+        if ($originalWidth >= 640) {
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, 'webp', 640);
+            $imageTags[] = $this->generateSourceTag($cloudinaryImage, $cloudinaryImage->getOriginalExtension(), 640);
+        }
+
+        $imageTags[] = $this->generateSourceTag($cloudinaryImage, 'webp');
+        $imageTags[] = $originalImageElement->__toString();
+
+        return new HtmlElement('picture', [], join('', $imageTags));
     }
 
-    private function generateSourceTag(CloudinaryImage $cloudinaryImage, string $format, int $width, int $responsiveBreakpoint = null): HtmlElement
+    private function generateSourceTag(CloudinaryImage $cloudinaryImage, string $format, int $width = null, int $responsiveBreakpoint = null): HtmlElement
     {
         $sourceTag = new HtmlElement('source', [], '', true);
+        $options = ['format' => $format];
 
-        $sourceTag->setAttribute('srcset', $cloudinaryImage->generateUrl([
-            'format' => $format,
-            'width' => $width,
-        ]));
+        if ($width !== null) {
+            $options['width'] = $width;
+        }
 
+        $sourceTag->setAttribute('srcset', $cloudinaryImage->generateUrl($options));
         $sourceTag->setAttribute('type', "image/{$format}");
 
         if ($responsiveBreakpoint !== null) {
