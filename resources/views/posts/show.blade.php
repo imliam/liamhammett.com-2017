@@ -62,7 +62,7 @@
     <meta property="og:updated_time" content="{{ $post->updated_at->toIso8601String() }}"/>
 
     <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:description" content="{{ $post->excerpt }}"/>
+    <meta name="twitter:description" content="{{ strip_tags($post->excerpt) }}"/>
     <meta name="twitter:title" content="{{ $post->title }} | Liam Hammett"/>
     <meta name="twitter:site" content="@liamhammett"/>
     <meta name="twitter:creator" content="@liamhammett"/>
