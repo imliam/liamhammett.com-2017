@@ -53,7 +53,7 @@
 
 @section('seo')
     <meta property="og:title" content="{{ $post->title }} | Liam Hammett"/>
-    <meta property="og:description" content="{{ $post->excerpt }}"/>
+    <meta property="og:description" content="{{ strip_tags($post->excerpt) }}"/>
 
     @foreach($post->tags as $tag)
         <meta property="article:tag" content="{{ $tag->name }}"/>
