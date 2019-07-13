@@ -13,6 +13,7 @@ use League\CommonMark\Ext\Strikethrough\StrikethroughExtension;
 use League\CommonMark\Inline\Element\Image;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
+use League\CommonMark\Ext\Table\TableExtension;
 
 class CommonMark
 {
@@ -25,7 +26,8 @@ class CommonMark
             ->addInlineRenderer(Image::class, new FigureImageRenderer())
             ->addExtension(new AutolinkExtension())
             ->addExtension(new SmartPunctExtension())
-            ->addExtension(new StrikethroughExtension());
+            ->addExtension(new StrikethroughExtension())
+            ->addExtension(new TableExtension());
 
         $commonMarkConverter = new CommonMarkConverter([], $environment);
 
