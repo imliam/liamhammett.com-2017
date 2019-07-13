@@ -78,9 +78,16 @@ class FigureImageRenderer extends BaseImageRenderer
     {
         $imageUrl = $originalImageElement->getAttribute('src');
 
-        [$originalWidth] = Cache::remember('imagesize_' . $imageUrl, now()->addWeek(), function() use ($imageUrl) {
-            return getimagesize($imageUrl);
-        });
+        $imageData = Cache::remember('imagesize_' . $imageUrl, now()->addWeek(), function() use ($imageUrl) {
+             return getimagesize($imageUrl);
+         });
+
+        $originalWidth = reset($imageData);
+        $mime = $imageData['mime'] ?? '';
+
+        if ($mime === 'image/gif') {
+            return new HtmlElement('picture', [], $originalImageElement->__toString());
+        }
 
         $imageTags = [];
 
