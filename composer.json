@@ -33,6 +33,7 @@
         "league/commonmark-ext-autolink": "^0.3.0",
         "league/commonmark-ext-smartpunct": "^0.2.0",
         "league/commonmark-ext-strikethrough": "^0.4.0",
+        "league/commonmark-ext-table": "^2.0",
         "ohdearapp/nova-ohdear-tool": "^1.0",
         "spatie/commonmark-highlighter": "^1.0",
         "spatie/laravel-backup": "^6.0",
